@@ -2,16 +2,21 @@ import pandas as pd
 import json
 
 def generate_combinations(lists):
-    if len(lists) == 0:
-        return [[]]
-    rest_combinations = generate_combinations(lists[1:])
-    current_combinations = []
-    for item in lists[0]:
-        for combination in rest_combinations:
-            current_combinations.append([item] + combination)
-    return current_combinations
+    combinations = [[]]
+    
+    for sublist in lists:
+        new_combinations = []
+        
+        for combination in combinations:
+            for item in sublist:
+                new_combinations.append(combination + [item])
+        
+        combinations = new_combinations
+    
+    return combinations
 
-file_path = 'ML/Cabelteque/CDL Virus Assignment (Y V0).xlsx'
+
+file_path = '/Users/satviksawhney/Downloads/ML_CLASS/Cabelteque/CDL Virus Assignment (Y V0).xlsx'
 excel_data = pd.ExcelFile(file_path)
 
 
@@ -53,5 +58,5 @@ for combination in all_combinations:
     virus_mutations.append(mutation)
 
 json_output = json.dumps(virus_mutations, indent=4)
-with open('ML/Cabelteque/virus_mutations.json', 'w') as json_file:
+with open('/Users/satviksawhney/Downloads/ML_CLASS/Cabelteque/virus_mutations_0.json', 'w') as json_file:
     json_file.write(json_output)
