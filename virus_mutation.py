@@ -30,7 +30,14 @@ for sheet_name in excel_data.sheet_names:
         dependent_data[sheet_name] = pd.read_excel(excel_data, sheet_name=sheet_name)
 
 designators = signature_df.columns.tolist()
-all_combinations = generate_combinations([signature_df[designator].dropna().tolist() for designator in designators])
+
+designator_values = []
+
+for designator in designators:
+    values = signature_df[designator].dropna().tolist()
+    designator_values.append(values)
+    
+all_combinations = generate_combinations(designator_values)
 
 virus_mutations = []
 for combination in all_combinations:
